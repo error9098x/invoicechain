@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import './engineer.css';
+
 
 export default function EngineerCheck() {
   const [engineerId, setEngineerId] = useState('');
@@ -92,7 +94,8 @@ setBlockchainHash(hash);
   return (
     <div style={{ padding: 24, maxWidth: 900, margin: '0 auto' }}>
       <h1>Engineer Inspection — Submit Check</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="engineer-form">
+
         <label>Engineer ID<br />
           <input value={engineerId} onChange={(e) => setEngineerId(e.target.value)} required />
         </label>

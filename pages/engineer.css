@@ -1,0 +1,12 @@
+/* Force readable inputs on dark theme */
+.engineer-form input,
+.engineer-form textarea,
+.engineer-form select {
+  color: #000000 !important;
+  background-color: #ffffff !important;
+}
+
+.engineer-form input::placeholder,
+.engineer-form textarea::placeholder {
+  color: #555555 !important;
+}

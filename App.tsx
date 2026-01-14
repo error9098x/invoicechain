@@ -1,3 +1,5 @@
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 import React from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
@@ -15,6 +17,8 @@ export default function App() {
     <WalletProvider>
       <HashRouter>
         <Routes>
+            <Route path="/login" element={<Login />} />
+    <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<Layout />}>
             <Route index element={<Landing />} />
             <Route path="dashboard" element={<Dashboard />} />
@@ -31,6 +35,7 @@ export default function App() {
           </Route>
         </Routes>
       </HashRouter>
+
       <RainbowKitModal />
     </WalletProvider>
   );

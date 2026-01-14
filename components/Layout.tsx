@@ -15,7 +15,8 @@ import {
   Store,
   LogOut,
   ChevronDown,
-  UserCircle
+  UserCircle,
+  ShieldCheck
 } from 'lucide-react';
 import { Button } from './ui/LayoutPrimitives';
 import { CURRENT_USER } from '../constants';
@@ -114,6 +115,16 @@ export default function Layout() {
                 Finance
               </div>
               <SidebarItem to="/wallet" icon={Wallet} label="Wallet & Settlements" />
+              <div className="mt-8 mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+  Engineer
+</div>
+
+<SidebarItem
+  to="/engineer"
+  icon={ShieldCheck}
+  label="Engineer Inspection"
+/>
+
               
               <div className="mt-8 mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-text-tertiary">
                 Funder Mode (Demo)

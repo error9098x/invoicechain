@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import CreateInvoice from './pages/CreateInvoice';
 import Marketplace from './pages/Marketplace';
 import InvoiceDetail from './pages/InvoiceDetail';
+import EngineerCheck from './pages/EngineerCheck';
 import { WalletProvider } from './contexts/WalletContext';
 import { RainbowKitModal } from './components/RainbowKit';
 
@@ -19,6 +20,9 @@ export default function App() {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="invoices/new" element={<CreateInvoice />} />
             <Route path="invoices/:id" element={<InvoiceDetail />} />
+            <Route path="engineer" element={<EngineerCheck />} />
+
+            <Route path="inspection/new" element={<EngineerCheck />} />
             <Route path="marketplace" element={<Marketplace />} />
             {/* Fallback routes */}
             <Route path="invoices" element={<Dashboard />} />

@@ -460,24 +460,24 @@
   <body>
     <div id="root"></div>
 
-    <!-- Dashboard Page -->
+    <!-- Dashboard Page - Main Landing Page -->
     <div class="page active" id="dashboardPage">
       <div class="dashboard-title">
-        <h1>📊 InvoiceChain Portal</h1>
+        <h1>📊 INVOICECHAIN PORTAL</h1>
         <p>Select your portal to access blockchain features</p>
       </div>
       <div class="dashboard-grid">
-        <div class="portal-card" onclick="showPage('msmeLoginPage')">
+        <div class="portal-card" onclick="alert('MSME Portal - Coming Soon')">
           <span class="card-icon">🏢</span>
           <h3>MSME Portal</h3>
           <p>For small and medium enterprises</p>
         </div>
-        <div class="portal-card" onclick="showPage('bankLoginPage')">
+        <div class="portal-card" onclick="alert('Bank/NBFC Portal - Coming Soon')">
           <span class="card-icon">🏦</span>
           <h3>Bank / NBFC Portal</h3>
           <p>For financial institutions</p>
         </div>
-        <div class="portal-card" onclick="showPage('buyerLoginPage')">
+        <div class="portal-card" onclick="alert('Buyer Portal - Coming Soon')">
           <span class="card-icon">🛒</span>
           <h3>Buyer Portal</h3>
           <p>For corporate buyers</p>
@@ -485,231 +485,11 @@
       </div>
     </div>
 
-    <!-- MSME Login Page -->
-    <div class="signup-container page" id="msmeLoginPage">
-      <div class="signup-card">
-        <div class="card-header">
-          <div class="card-icon">🏢</div>
-          <h2 class="card-title">MSME Portal</h2>
-          <p class="card-subtitle">Sign in to manage your invoices</p>
-        </div>
-        <form onsubmit="event.preventDefault(); handleLogin('msme');">
-          <div class="form-group">
-            <label for="msmeEmail">Email Address</label>
-            <input 
-              type="email" 
-              id="msmeEmail" 
-              placeholder="Enter your email address" 
-              required
-              autocomplete="email"
-            >
-          </div>
-          <div class="form-group">
-            <label for="msmePassword">Password</label>
-            <input 
-              type="password" 
-              id="msmePassword" 
-              placeholder="Enter your password" 
-              required
-              autocomplete="current-password"
-            >
-          </div>
-          <button type="submit" class="btn-signup">
-            🔐 Sign In
-          </button>
-          <div class="link-text">
-            <a href="#" onclick="event.preventDefault(); showPage('dashboardPage');">← Back to Dashboard</a>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Bank/NBFC Login Page -->
-    <div class="signup-container page" id="bankLoginPage">
-      <div class="signup-card">
-        <div class="card-header">
-          <div class="card-icon">🏦</div>
-          <h2 class="card-title">Bank / NBFC Portal</h2>
-          <p class="card-subtitle">Sign in to access blockchain features</p>
-        </div>
-        <form onsubmit="event.preventDefault(); handleLogin('bank');">
-          <div class="form-group">
-            <label for="bankEmail">Email Address</label>
-            <input 
-              type="email" 
-              id="bankEmail" 
-              placeholder="Enter your email address" 
-              required
-              autocomplete="email"
-            >
-          </div>
-          <div class="form-group">
-            <label for="bankPassword">Password</label>
-            <input 
-              type="password" 
-              id="bankPassword" 
-              placeholder="Enter your password" 
-              required
-              autocomplete="current-password"
-            >
-          </div>
-          <button type="submit" class="btn-signup">
-            🔐 Sign In
-          </button>
-          <div class="link-text">
-            <a href="#" onclick="event.preventDefault(); showPage('dashboardPage');">← Back to Dashboard</a>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Buyer Login Page -->
-    <div class="signup-container page" id="buyerLoginPage">
-      <div class="signup-card">
-        <div class="card-header">
-          <div class="card-icon">🛒</div>
-          <h2 class="card-title">Buyer Portal</h2>
-          <p class="card-subtitle">Sign in to manage purchases</p>
-        </div>
-        <form onsubmit="event.preventDefault(); handleLogin('buyer');">
-          <div class="form-group">
-            <label for="buyerEmail">Email Address</label>
-            <input 
-              type="email" 
-              id="buyerEmail" 
-              placeholder="Enter your email address" 
-              required
-              autocomplete="email"
-            >
-          </div>
-          <div class="form-group">
-            <label for="buyerPassword">Password</label>
-            <input 
-              type="password" 
-              id="buyerPassword" 
-              placeholder="Enter your password" 
-              required
-              autocomplete="current-password"
-            >
-          </div>
-          <button type="submit" class="btn-signup">
-            🔐 Sign In
-          </button>
-          <div class="link-text">
-            <a href="#" onclick="event.preventDefault(); showPage('dashboardPage');">← Back to Dashboard</a>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Contract Interaction Page (After Bank Login) -->
-    <div class="signup-container page" id="contractPage">
-      <div class="signup-card">
-        <div class="card-header">
-          <div class="card-icon">🔗</div>
-          <h2 class="card-title">Contract Interaction</h2>
-          <p class="card-subtitle">Test your blockchain smart contract</p>
-        </div>
-        <form onsubmit="event.preventDefault();">
-          <div class="form-group">
-            <label for="contractAddress">Contract Address</label>
-            <input 
-              type="text" 
-              id="contractAddress" 
-              placeholder="Enter contract address (0x...)" 
-              value="PASTE_CONTRACT_ADDRESS_HERE"
-              autocomplete="off"
-            >
-          </div>
-          <button type="button" class="btn-signup" onclick="readMessage()">
-            📥 Get Message
-          </button>
-          <div id="output"></div>
-          <div class="link-text">
-            <a href="#" onclick="event.preventDefault(); handleLogout();">← Logout</a>
-          </div>
-        </form>
-      </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 
     <script>
-      // Page navigation functions
-      function showPage(pageId) {
-        document.querySelectorAll('.page').forEach(page => {
-          page.classList.remove('active');
-        });
-        document.getElementById(pageId).classList.add('active');
-      }
-
-      function handleLogin(portal) {
-        let email, password;
-        
-        if (portal === 'msme') {
-          email = document.getElementById('msmeEmail').value;
-          password = document.getElementById('msmePassword').value;
-        } else if (portal === 'bank') {
-          email = document.getElementById('bankEmail').value;
-          password = document.getElementById('bankPassword').value;
-        } else if (portal === 'buyer') {
-          email = document.getElementById('buyerEmail').value;
-          password = document.getElementById('buyerPassword').value;
-        }
-
-        if (email && password) {
-          // Only Bank/NBFC portal has access to contract interaction
-          if (portal === 'bank') {
-            showPage('contractPage');
-          } else {
-            // For MSME and Buyer, you can redirect to different pages
-            alert(`Welcome to ${portal.toUpperCase()} Portal! (Feature coming soon)`);
-          }
-        }
-      }
-
-      function handleLogout() {
-        // Clear forms
-        document.getElementById('msmeEmail').value = '';
-        document.getElementById('msmePassword').value = '';
-        document.getElementById('bankEmail').value = '';
-        document.getElementById('bankPassword').value = '';
-        document.getElementById('buyerEmail').value = '';
-        document.getElementById('buyerPassword').value = '';
-        showPage('dashboardPage');
-      }
-
-      // Provider (demo)
-      const provider = new ethers.providers.JsonRpcProvider();
-
-      async function readMessage() {
-        try {
-          const contractAddress = document.getElementById("contractAddress").value;
-          const outputEl = document.getElementById("output");
-          
-          // Show output element
-          outputEl.classList.add("show");
-          outputEl.classList.remove("success", "error");
-          
-          if (!contractAddress || contractAddress === "PASTE_CONTRACT_ADDRESS_HERE") {
-            outputEl.innerText = "⚠️ Please enter a valid contract address";
-            outputEl.classList.add("error");
-            return;
-          }
-
-          outputEl.innerText = "⏳ Loading...";
-
-          const contract = new ethers.Contract(contractAddress, CONTRACT_ABI, provider);
-          const msg = await contract.message();
-          
-          outputEl.innerText = "✅ Message: " + msg;
-          outputEl.classList.add("success");
-        } catch (error) {
-          const outputEl = document.getElementById("output");
-          outputEl.classList.add("show", "error");
-          outputEl.innerText = "❌ Error: " + error.message;
-        }
-      }
+      // Placeholder for future functionality
+      console.log('InvoiceChain Portal - Main Dashboard');
     </script>
 
     <script type="module" src="/src/index.tsx"></script>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InvoiceChain Portal</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
         * {
             margin: 0;
@@ -262,6 +263,210 @@
                 font-size: 14px;
             }
         }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: #ffffff;
+            border-radius: 32px;
+            padding: 50px 40px;
+            width: 100%;
+            max-width: 550px;
+            box-shadow: 0 40px 120px rgba(0, 0, 0, 0.4);
+            position: relative;
+            animation: slideUp 0.4s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 32px;
+            color: #666;
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            background: #f0f0f0;
+            color: #333;
+            transform: rotate(90deg);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .modal-icon {
+            font-size: 70px;
+            margin-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: #1a1a2e;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .modal-subtitle {
+            font-size: 16px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .signup-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-input {
+            padding: 16px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: #ffffff;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .captcha-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+            transform: scale(0.95);
+            transform-origin: center;
+        }
+
+        .submit-btn {
+            padding: 18px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.4s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 15px;
+            color: #666;
+        }
+
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                padding: 40px 30px;
+                max-width: 95%;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-title {
+                font-size: 26px;
+            }
+
+            .captcha-wrapper {
+                transform: scale(0.85);
+            }
+        }
     </style>
 </head>
 <body>
@@ -276,7 +481,7 @@
 
         <div class="cards-grid">
             <!-- MSME Portal Card -->
-            <div class="card">
+            <div class="card" id="msmeCard">
                 <span class="card-icon">🏢</span>
                 <h2 class="card-title">MSME Portal</h2>
                 <p class="card-description">For small and medium enterprises</p>
@@ -297,5 +502,129 @@
             </div>
         </div>
     </div>
+
+    <!-- MSME Signup Modal -->
+    <div class="modal" id="msmeModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeModal">&times;</button>
+            
+            <div class="modal-header">
+                <div class="modal-icon">🏢</div>
+                <h2 class="modal-title">MSME Sign Up</h2>
+                <p class="modal-subtitle">Create your enterprise account</p>
+            </div>
+
+            <form class="signup-form" id="signupForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">First Name</label>
+                        <input type="text" class="form-input" placeholder="John" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" class="form-input" placeholder="Doe" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Company Name</label>
+                    <input type="text" class="form-input" placeholder="Your Company Pvt Ltd" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" placeholder="john@company.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-input" placeholder="+91 98765 43210" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" placeholder="Minimum 8 characters" minlength="8" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" class="form-input" placeholder="Re-enter password" minlength="8" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Business Registration Number</label>
+                    <input type="text" class="form-input" placeholder="GST/CIN/MSME Number" required>
+                </div>
+
+                <!-- reCAPTCHA -->
+                <div class="captcha-wrapper">
+                    <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+                </div>
+
+                <button type="submit" class="submit-btn">Create Account</button>
+
+                <div class="login-link">
+                    Already have an account? <a href="#">Sign In</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality
+        const msmeCard = document.getElementById('msmeCard');
+        const msmeModal = document.getElementById('msmeModal');
+        const closeModal = document.getElementById('closeModal');
+        const signupForm = document.getElementById('signupForm');
+
+        // Open modal when MSME card is clicked
+        msmeCard.addEventListener('click', () => {
+            msmeModal.classList.add('active');
+        });
+
+        // Close modal when close button is clicked
+        closeModal.addEventListener('click', () => {
+            msmeModal.classList.remove('active');
+        });
+
+        // Close modal when clicking outside
+        msmeModal.addEventListener('click', (e) => {
+            if (e.target === msmeModal) {
+                msmeModal.classList.remove('active');
+            }
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && msmeModal.classList.contains('active')) {
+                msmeModal.classList.remove('active');
+            }
+        });
+
+        // Form submission
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Check if reCAPTCHA is completed
+            const recaptchaResponse = grecaptcha.getResponse();
+            if (recaptchaResponse.length === 0) {
+                alert('Please complete the reCAPTCHA verification');
+                return;
+            }
+
+            // Password validation
+            const passwords = signupForm.querySelectorAll('input[type="password"]');
+            if (passwords[0].value !== passwords[1].value) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            // Form is valid
+            alert('Sign up successful! Welcome to InvoiceChain MSME Portal.');
+            msmeModal.classList.remove('active');
+            signupForm.reset();
+            grecaptcha.reset();
+        });
+    </script>
 </body>
 </html>

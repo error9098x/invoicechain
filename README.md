@@ -167,3 +167,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
   <p>Made with ❤️ by the InvoiceChain Team</p>
   <p>© 2026 InvoiceChain Decentralized Finance. All rights reserved.</p>
 </div>
+Approvals
